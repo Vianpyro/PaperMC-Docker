@@ -8,6 +8,9 @@ ENV MC_VERSION="latest" \
     MC_RAM="2G" \
     JAVA_OPTS=""
 
+# Copy the startup script into the container
+COPY papermc.sh .
+
 # Install necessary packages
 RUN apk update && apk add --no-cache \
     libstdc++ \
@@ -20,10 +23,10 @@ RUN apk update && apk add --no-cache \
 # Set the working directory inside the container
 WORKDIR /server
 
-# Copy the startup script into the container
-COPY papermc.sh .
+# Start the Minecraft server using the bash script
+CMD ["bash", "./papermc.sh"]
 
-# Expose the port dynamically based on MC_PORT environment variable
+# Expose the server port
 EXPOSE 25565/tcp
 EXPOSE 25565/udp
 
@@ -33,6 +36,3 @@ VOLUME /server
 # Healthcheck to ensure server is up and responding
 HEALTHCHECK --interval=5m --timeout=3s --start-period=30s --retries=3 \
     CMD curl --silent --fail localhost:25565 || exit 1
-
-# Start the Minecraft server using the bash script
-CMD ["bash", "./papermc.sh"]
