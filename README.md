@@ -9,7 +9,6 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 -   **Dynamic Versioning**: Choose between the latest version or specify a particular Minecraft version.
 -   **Custom RAM Allocation**: Dynamically allocate memory using the `MC_RAM` environment variable.
 -   **EULA Acceptance**: Dynamically set the EULA acceptance (`EULA=true` or `EULA=false`).
--   **Multiple Instance Support**: Run multiple instances of the server on different ports by specifying the `MC_PORT` environment variable.
 -   **Data Persistence**: Use Docker volumes or bind mounts to persist Minecraft world data, configurations, and backups.
 -   **Health Check**: Automatically restarts the container if the server is unresponsive, ensuring the server remains online.
 
@@ -33,8 +32,6 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 
 ### Run the Docker Container
 
-You can run multiple instances of the server on different ports by using the `-e MC_PORT` environment variable to specify the port for each instance.
-
 #### Example: Run Minecraft Server on Default Port (25565)
 
 ```bash
@@ -44,7 +41,6 @@ docker run -dit -p 25565:25565 --name minecraft-server-1 \
   -e EULA=true \
   -e MC_VERSION=latest \
   -e MC_RAM=2G \
-  -e MC_PORT=25565 \
   minecraft-server
 ```
 
@@ -57,7 +53,6 @@ docker run -dit -p 25566:25565 --name minecraft-server-2 \
   -e EULA=true \
   -e MC_VERSION=1.18.1 \
   -e MC_RAM=4G \
-  -e MC_PORT=25565 \
   minecraft-server
 ```
 
@@ -70,7 +65,6 @@ docker run -dit -p 25567:25565 --name minecraft-server-3 \
   -e EULA=true \
   -e MC_VERSION=1.17.1 \
   -e MC_RAM=4G \
-  -e MC_PORT=25565 \
   minecraft-server
 ```
 
@@ -93,7 +87,6 @@ The following environment variables are available for configuring the Minecraft 
 -   **`PAPER_BUILD`**: Set the build number for Paper. Default: `latest`.
 -   **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
 -   **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `2G`.
--   **`MC_PORT`**: Set the port for the Minecraft server to listen on. Default: `25565`. Example: `25566`.
 
 ### Data Persistence
 
@@ -128,7 +121,6 @@ services:
             - EULA=true
             - MC_VERSION=latest
             - MC_RAM=2G
-            - MC_PORT=25565
         restart: always
         stdin_open: true
         tty: true
@@ -144,7 +136,6 @@ services:
             - EULA=true
             - MC_VERSION=1.18.1
             - MC_RAM=4G
-            - MC_PORT=25565
         restart: always
         stdin_open: true
         tty: true
@@ -160,7 +151,6 @@ services:
             - EULA=true
             - MC_VERSION=1.17.1
             - MC_RAM=4G
-            - MC_PORT=25565
         restart: always
         stdin_open: true
         tty: true

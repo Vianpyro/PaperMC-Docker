@@ -6,7 +6,6 @@ cd /server
 # Set default values if not provided
 : ${MC_VERSION:='latest'}
 : ${PAPER_BUILD:='latest'}
-: ${MC_PORT:='25565'}
 
 # Convert to lowercase to avoid 404 errors with wget
 MC_VERSION="${MC_VERSION,,}"
@@ -56,5 +55,5 @@ if [[ -n $MC_RAM ]]; then
 fi
 
 # Start the Minecraft server with the provided configuration
-echo "Starting Minecraft server on port ${MC_PORT}..."
-exec java -server $JAVA_OPTS -jar server.jar nogui --port ${MC_PORT}
+echo "Starting Minecraft server..."
+exec java -server $JAVA_OPTS -jar server.jar nogui
