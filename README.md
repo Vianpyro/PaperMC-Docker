@@ -38,7 +38,7 @@ You can run multiple instances of the server on different ports by using the `-e
 #### Example: Run Minecraft Server on Default Port (25565)
 
 ```bash
-docker run -d -p 25565:25565 --name minecraft-server-1 \
+docker run -dit -p 25565:25565 --name minecraft-server-1 \
   --restart always \
   -v /path/to/minecraft/data-1:/server \
   -e EULA=true \
@@ -51,7 +51,7 @@ docker run -d -p 25565:25565 --name minecraft-server-1 \
 #### Example: Run Minecraft Server on Custom Port (25566)
 
 ```bash
-docker run -d -p 25566:25565 --name minecraft-server-2 \
+docker run -dit -p 25566:25565 --name minecraft-server-2 \
   --restart always \
   -v /path/to/minecraft/data-2:/server \
   -e EULA=true \
@@ -64,7 +64,7 @@ docker run -d -p 25566:25565 --name minecraft-server-2 \
 #### Example: Run Minecraft Server with Custom Version and RAM Allocation
 
 ```bash
-docker run -d -p 25567:25565 --name minecraft-server-3 \
+docker run -dit -p 25567:25565 --name minecraft-server-3 \
   --restart always \
   -v /path/to/minecraft/data-3:/server \
   -e EULA=true \
@@ -73,6 +73,17 @@ docker run -d -p 25567:25565 --name minecraft-server-3 \
   -e MC_PORT=25565 \
   minecraft-server
 ```
+
+### Why Use `-it`?
+
+The `-it` flags (`-i` for interactive mode and `-t` for pseudo-TTY) allow you to interact with the Minecraft server console after starting the container.
+This means you can run server commands directly by attaching to the running container using:
+
+```bash
+docker attach minecraft-server-1
+```
+
+To detach from the console without stopping the server, use `Ctrl + P`, `Ctrl + Q`.
 
 ### Environment Variables
 
@@ -119,6 +130,8 @@ services:
             - MC_RAM=2G
             - MC_PORT=25565
         restart: always
+        stdin_open: true
+        tty: true
 
     minecraft-server-2:
         image: minecraft-server
@@ -133,6 +146,8 @@ services:
             - MC_RAM=4G
             - MC_PORT=25565
         restart: always
+        stdin_open: true
+        tty: true
 
     minecraft-server-3:
         image: minecraft-server
@@ -147,6 +162,8 @@ services:
             - MC_RAM=4G
             - MC_PORT=25565
         restart: always
+        stdin_open: true
+        tty: true
 ```
 
 With **Docker Compose**, you can easily manage multiple instances of the Minecraft server by simply running:
