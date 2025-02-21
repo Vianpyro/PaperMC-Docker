@@ -14,17 +14,15 @@ PAPER_BUILD="${PAPER_BUILD,,}"
 
 # Get the latest Minecraft version if "latest" is specified
 if [[ $MC_VERSION == "latest" ]]; then
-    PROJECT="paper"
-    LATEST_VERSION=$(curl -s https://api.papermc.io/v2/projects/${PROJECT} | jq -r '.versions[-1]')
+    LATEST_VERSION=$(curl -s https://api.papermc.io/v2/projects/paper | jq -r '.versions[-1]')
     MC_VERSION="${LATEST_VERSION}"
     echo "Latest Minecraft version is ${MC_VERSION}"
 fi
 
 # Get the latest stable build for the specified Minecraft version
-PROJECT="paper"
 MINECRAFT_VERSION="${MC_VERSION}"
 
-LATEST_BUILD=$(curl -s https://api.papermc.io/v2/projects/${PROJECT}/versions/${MINECRAFT_VERSION}/builds | \
+LATEST_BUILD=$(curl -s https://api.papermc.io/v2/projects/paper/versions/${MINECRAFT_VERSION}/builds | \
     jq -r '.builds | map(select(.channel == "default") | .build) | .[-1]')
 
 if [[ "$LATEST_BUILD" != "null" ]]; then
@@ -36,8 +34,8 @@ else
 fi
 
 # Define the jar file name and download URL
-JAR_NAME="${PROJECT}-${MINECRAFT_VERSION}-${PAPER_BUILD}.jar"
-PAPERMC_URL="https://api.papermc.io/v2/projects/${PROJECT}/versions/${MINECRAFT_VERSION}/builds/${PAPER_BUILD}/downloads/${JAR_NAME}"
+JAR_NAME="paper-${MINECRAFT_VERSION}-${PAPER_BUILD}.jar"
+PAPERMC_URL="https://api.papermc.io/v2/projects/paper/versions/${MINECRAFT_VERSION}/builds/${PAPER_BUILD}/downloads/${JAR_NAME}"
 
 # Download the server jar if it doesn't exist
 if [[ ! -f $JAR_NAME ]]; then
