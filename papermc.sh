@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Enter the papermc directory
-cd /papermc
+cd /server
 
 # Set default values if not provided
 : ${MC_VERSION:='latest'}
@@ -37,7 +37,10 @@ fi
 JAR_NAME="paper-${MINECRAFT_VERSION}-${PAPER_BUILD}.jar"
 PAPERMC_URL="https://api.papermc.io/v2/projects/paper/versions/${MINECRAFT_VERSION}/builds/${PAPER_BUILD}/downloads/${JAR_NAME}"
 
-# Download the server jar if it doesn't exist
+# Remove old JARs
+rm -f paper-*.jar
+
+# Download the latest server jar
 if [[ ! -f $JAR_NAME ]]; then
     echo "Downloading Paper server jar for ${MINECRAFT_VERSION}-${PAPER_BUILD}..."
     curl -o server.jar $PAPERMC_URL

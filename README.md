@@ -40,7 +40,7 @@ You can run multiple instances of the server on different ports by using the `-e
 ```bash
 docker run -d -p 25565:25565 --name minecraft-server-1 \
   --restart always \
-  -v /path/to/minecraft/data-1:/papermc \
+  -v /path/to/minecraft/data-1:/server \
   -e EULA=true \
   -e MC_VERSION=latest \
   -e MC_RAM=2G \
@@ -53,7 +53,7 @@ docker run -d -p 25565:25565 --name minecraft-server-1 \
 ```bash
 docker run -d -p 25566:25565 --name minecraft-server-2 \
   --restart always \
-  -v /path/to/minecraft/data-2:/papermc \
+  -v /path/to/minecraft/data-2:/server \
   -e EULA=true \
   -e MC_VERSION=1.18.1 \
   -e MC_RAM=4G \
@@ -66,7 +66,7 @@ docker run -d -p 25566:25565 --name minecraft-server-2 \
 ```bash
 docker run -d -p 25567:25565 --name minecraft-server-3 \
   --restart always \
-  -v /path/to/minecraft/data-3:/papermc \
+  -v /path/to/minecraft/data-3:/server \
   -e EULA=true \
   -e MC_VERSION=1.17.1 \
   -e MC_RAM=4G \
@@ -81,7 +81,7 @@ The following environment variables are available for configuring the Minecraft 
 -   **`MC_VERSION`**: Set the Minecraft version you want to run. Default: `latest`. Example: `1.18.1`.
 -   **`PAPER_BUILD`**: Set the build number for Paper. Default: `latest`.
 -   **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
--   **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2G`, `4G`. Default: No RAM specified.
+-   **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `2G`.
 -   **`MC_PORT`**: Set the port for the Minecraft server to listen on. Default: `25565`. Example: `25566`.
 
 ### Data Persistence
@@ -89,7 +89,7 @@ The following environment variables are available for configuring the Minecraft 
 To persist data across container restarts, you must mount a host directory as a volume. For example, to mount `/path/to/minecraft/data` from your host machine:
 
 ```bash
--v /path/to/minecraft/data:/papermc
+-v /path/to/minecraft/data:/server
 ```
 
 This ensures that Minecraft's world data, server settings, and other configurations are saved outside the container. You can then back up the data or transfer it to a different server as needed.
@@ -112,7 +112,7 @@ services:
         ports:
             - "25565:25565"
         volumes:
-            - /path/to/minecraft/data-1:/papermc
+            - /path/to/minecraft/data-1:/server
         environment:
             - EULA=true
             - MC_VERSION=latest
@@ -126,7 +126,7 @@ services:
         ports:
             - "25566:25565"
         volumes:
-            - /path/to/minecraft/data-2:/papermc
+            - /path/to/minecraft/data-2:/server
         environment:
             - EULA=true
             - MC_VERSION=1.18.1
@@ -140,7 +140,7 @@ services:
         ports:
             - "25567:25565"
         volumes:
-            - /path/to/minecraft/data-3:/papermc
+            - /path/to/minecraft/data-3:/server
         environment:
             - EULA=true
             - MC_VERSION=1.17.1
