@@ -16,7 +16,6 @@ RUN addgroup -S minecraft && adduser -S minecraft -G minecraft && \
     mkdir -p /server && \
     chown -R minecraft:minecraft /server
 
-
 # Install necessary packages
 RUN apk update && apk add --no-cache \
     libstdc++ \
