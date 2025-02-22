@@ -114,6 +114,10 @@ The following environment variables are available for configuring the Minecraft 
 -   **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
 -   **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `2G`.
 
+> [!NOTE]
+> PaperMC recommends allocating at least **6-10GB of RAM**, regardless of the number of players.
+> See [PaperMC's documentation](https://docs.papermc.io/paper/aikars-flags) for details.
+
 ### Data Persistence
 
 To persist data across container restarts, you can mount a host directory as a volume.
@@ -136,7 +140,6 @@ If the server becomes unresponsive, Docker will mark the container as unhealthy 
 Using **Docker Compose**, you can manage multiple Minecraft server instances more easily.
 
 ```yaml
-version: "3.8"
 services:
     papermc-server-1:
         image: papermc-server
@@ -160,8 +163,41 @@ services:
             - "25566:25565"
         environment:
             - EULA=true
-            - MC_RAM=3G
+            - MC_RAM=6G
             - MC_VERSION=1.18.2
+        restart: unless-stopped
+        stdin_open: true
+        tty: true
+
+    papermc-server-3:
+        image: papermc-server
+        container_name: papermc-server-3
+        user: "1001:1001"
+        volumes:
+            - /path/to/minecraft/data-3:/server
+        ports:
+            - "25567:25565"
+        environment:
+            - EULA=true
+            - MC_VERSION=1.17.1
+            - MC_RAM=4G
+        restart: always
+        stdin_open: true
+        tty: true
+
+    papermc-server-4:
+        image: papermc-server
+        container_name: papermc-server-4
+        user: "1004:1004"
+        volumes:
+            - /path/to/minecraft/data-4:/server
+        ports:
+            - "25568:25565"
+        environment:
+            - EULA=true
+            - MC_VERSION=1.16.5
+            - MC_RAM=10G
+            - JAVA_OPTS=-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions
         restart: unless-stopped
         stdin_open: true
         tty: true
@@ -186,7 +222,7 @@ Start all servers using:
 docker-compose up -d
 ```
 
-This will launch all four Minecraft servers on different ports.
+This will launch all Minecraft servers on different ports.
 
 ---
 
