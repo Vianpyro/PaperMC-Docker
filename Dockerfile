@@ -8,13 +8,14 @@ ENV MC_VERSION="latest" \
     MC_RAM="2G" \
     JAVA_OPTS=""
 
-# Copy the startup script into the container
-COPY papermc.sh /server/papermc.sh
+# Copy the startup script to the container root
+COPY papermc.sh /papermc.sh
 
 # Create a non-root user and group
 RUN addgroup -S minecraft && adduser -S minecraft -G minecraft && \
     mkdir -p /server && \
-    chown -R minecraft:minecraft /server
+    chown -R minecraft:minecraft /server && \
+    chmod +x /papermc.sh
 
 # Install necessary packages
 RUN apk update && apk add --no-cache \
@@ -32,7 +33,7 @@ WORKDIR /server
 USER minecraft
 
 # Start the Minecraft server using the bash script
-CMD ["bash", "/server/papermc.sh"]
+CMD ["bash", "/papermc.sh"]
 
 # Expose the server port
 EXPOSE 25565/tcp
