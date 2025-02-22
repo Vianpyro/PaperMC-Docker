@@ -16,6 +16,29 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 
 -   **Docker**: Install Docker on your system if you haven't already. Follow the installation instructions at https://docs.docker.com/get-docker/.
 
+## Minimum Arguments to Start the Container
+
+To start a Minecraft PaperMC server with the absolute minimum required arguments:
+
+```bash
+docker run -d -e EULA=true minecraft-server
+```
+
+### Explanation:
+
+-   `-d` → Runs the container in detached mode (in the background)
+-   `-e EULA=true` → Accepts the EULA, which is required for the server to start
+-   `minecraft-server` → The name of the Docker image
+
+By default, the container will use `MC_VERSION=latest`, `MC_RAM=2G`, and other default values from the `Dockerfile`.
+However, **players will not be able to join** since no ports are exposed.
+
+To allow players to connect, expose the necessary ports:
+
+```bash
+docker run -d -p 25565:25565 -e EULA=true minecraft-server
+```
+
 ## Setup Instructions
 
 ### Build the Docker Image
@@ -36,8 +59,7 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 
 ```bash
 docker run -dit -p 25565:25565 --name minecraft-server-1 \
-  --restart always \
-  -v /path/to/minecraft/data-1:/server \
+  --restart unless-stopped \
   -e EULA=true \
   -e MC_VERSION=latest \
   -e MC_RAM=2G \
@@ -48,8 +70,7 @@ docker run -dit -p 25565:25565 --name minecraft-server-1 \
 
 ```bash
 docker run -dit -p 25566:25565 --name minecraft-server-2 \
-  --restart always \
-  -v /path/to/minecraft/data-2:/server \
+  --restart unless-stopped \
   -e EULA=true \
   -e MC_VERSION=1.18.1 \
   -e MC_RAM=4G \
@@ -60,8 +81,7 @@ docker run -dit -p 25566:25565 --name minecraft-server-2 \
 
 ```bash
 docker run -dit -p 25567:25565 --name minecraft-server-3 \
-  --restart always \
-  -v /path/to/minecraft/data-3:/server \
+  --restart unless-stopped \
   -e EULA=true \
   -e MC_VERSION=1.17.1 \
   -e MC_RAM=4G \
@@ -90,17 +110,20 @@ The following environment variables are available for configuring the Minecraft 
 
 ### Data Persistence
 
-To persist data across container restarts, you must mount a host directory as a volume. For example, to mount `/path/to/minecraft/data` from your host machine:
+To persist data across container restarts, you can mount a host directory as a volume.
+For example, to mount `/path/to/minecraft/data` from your host machine add this argument:
 
 ```bash
 -v /path/to/minecraft/data:/server
 ```
 
-This ensures that Minecraft's world data, server settings, and other configurations are saved outside the container. You can then back up the data or transfer it to a different server as needed.
+This ensures that Minecraft's world data, server settings, and other configurations are saved outside the container.
+You can then back up the data or transfer it to a different server as needed.
 
 ### Health Check
 
-The Docker container includes a health check to ensure the server is up and responsive. If the server becomes unresponsive, Docker will mark the container as unhealthy and attempt to restart it.
+The Docker container includes a health check to ensure the server is up and responsive.
+If the server becomes unresponsive, Docker will mark the container as unhealthy and attempt to restart it.
 
 ## Docker Compose Example
 
@@ -115,8 +138,6 @@ services:
         container_name: minecraft-server-1
         ports:
             - "25565:25565"
-        volumes:
-            - /path/to/minecraft/data-1:/server
         environment:
             - EULA=true
             - MC_VERSION=latest
@@ -130,8 +151,6 @@ services:
         container_name: minecraft-server-2
         ports:
             - "25566:25565"
-        volumes:
-            - /path/to/minecraft/data-2:/server
         environment:
             - EULA=true
             - MC_VERSION=1.18.1
@@ -170,7 +189,7 @@ This will launch all three Minecraft servers on different ports.
 
 -   **Backups**: The persistent data stored in `/path/to/minecraft/data` (or any directory you specify) can be backed up, moved, or restored. Simply copy the contents of this directory to another location for safekeeping.
 -   **Resource Usage**: Be mindful of the system resources (RAM and CPU) when running multiple Minecraft server instances. You may need to adjust your `MC_RAM` settings based on your hardware specifications.
--   **Docker Restart Policy**: The `--restart always` flag ensures that the Minecraft server container will restart if it crashes or if Docker is restarted.
+-   **Docker Restart Policy**: The `--restart unless-stopped` flag ensures that the Minecraft server container will restart if it crashes or if Docker is restarted.
 
 ## License
 
