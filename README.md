@@ -27,14 +27,14 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 To start a Minecraft PaperMC server with the absolute minimum required arguments:
 
 ```bash
-docker run -d minecraft-server
+docker run -d papermc-server
 ```
 
 ### Explanation:
 
 -   `-d` → Runs the container in detached mode (in the background)
 -   `-e EULA=true` → Accepts the EULA, which is required for the server to start
--   `minecraft-server` → The name of the Docker image
+-   `papermc-server` → The name of the Docker image
 
 By default, the container will use `MC_VERSION=latest`, `MC_RAM=2G`, and other default values from the `Dockerfile`.
 However, **players will not be able to join** since no ports are exposed.
@@ -42,7 +42,7 @@ However, **players will not be able to join** since no ports are exposed.
 To allow players to connect, expose the necessary ports:
 
 ```bash
-docker run -d -p 25565:25565 -e EULA=true minecraft-server
+docker run -d -p 25565:25565 -e EULA=true papermc-server
 ```
 
 ## Setup Instructions
@@ -54,44 +54,44 @@ docker run -d -p 25565:25565 -e EULA=true minecraft-server
 3. Build the Docker image using the following command:
 
     ```bash
-    docker build -t minecraft-server .
+    docker build -t papermc-server .
     ```
 
-    This will create the `minecraft-server` Docker image.
+    This will create the `papermc-server` Docker image.
 
 ### Run the Docker Container
 
 #### Example: Run Minecraft Server on Default Port (25565)
 
 ```bash
-docker run -dit -p 25565:25565 --name minecraft-server-1 \
+docker run -dit -p 25565:25565 --name papermc-server-1 \
   --restart unless-stopped \
   -e EULA=true \
   -e MC_VERSION=latest \
   -e MC_RAM=2G \
-  minecraft-server
+  papermc-server
 ```
 
 #### Example: Run Minecraft Server on Custom Port (25566)
 
 ```bash
-docker run -dit -p 25566:25565 --name minecraft-server-2 \
+docker run -dit -p 25566:25565 --name papermc-server-2 \
   --restart unless-stopped \
   -e EULA=true \
   -e MC_VERSION=1.18.1 \
   -e MC_RAM=4G \
-  minecraft-server
+  papermc-server
 ```
 
 #### Example: Run Minecraft Server with Custom Version and RAM Allocation
 
 ```bash
-docker run -dit -p 25567:25565 --name minecraft-server-3 \
+docker run -dit -p 25567:25565 --name papermc-server-3 \
   --restart unless-stopped \
   -e EULA=true \
   -e MC_VERSION=1.17.1 \
   -e MC_RAM=4G \
-  minecraft-server
+  papermc-server
 ```
 
 ### Why Use `-it`?
@@ -100,7 +100,7 @@ The `-it` flags (`-i` for interactive mode and `-t` for pseudo-TTY) allow you to
 This means you can run server commands directly by attaching to the running container using:
 
 ```bash
-docker attach minecraft-server-1
+docker attach papermc-server-1
 ```
 
 To detach from the console without stopping the server, use `Ctrl + P`, `Ctrl + Q`.
@@ -139,9 +139,9 @@ If you're using **Docker Compose** to manage your containers, here's an example 
 version: "3.8"
 
 services:
-    minecraft-server-1:
-        image: minecraft-server
-        container_name: minecraft-server-1
+    papermc-server-1:
+        image: papermc-server
+        container_name: papermc-server-1
         ports:
             - "25565:25565"
         environment:
@@ -152,9 +152,9 @@ services:
         stdin_open: true
         tty: true
 
-    minecraft-server-2:
-        image: minecraft-server
-        container_name: minecraft-server-2
+    papermc-server-2:
+        image: papermc-server
+        container_name: papermc-server-2
         ports:
             - "25566:25565"
         environment:
@@ -165,9 +165,9 @@ services:
         stdin_open: true
         tty: true
 
-    minecraft-server-3:
-        image: minecraft-server
-        container_name: minecraft-server-3
+    papermc-server-3:
+        image: papermc-server
+        container_name: papermc-server-3
         ports:
             - "25567:25565"
         volumes:
