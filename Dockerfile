@@ -43,4 +43,4 @@ VOLUME /server
 
 # Healthcheck to ensure server is up and responding
 HEALTHCHECK --interval=5m --timeout=3s --start-period=30s --retries=3 \
-    CMD curl --silent --fail localhost:25565 || exit 1
+    CMD nc -z localhost 25565 || exit 1
