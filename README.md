@@ -27,7 +27,7 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 To start a Minecraft PaperMC server with the absolute minimum required arguments:
 
 ```bash
-docker run -d -e EULA=true minecraft-server
+docker run -d minecraft-server
 ```
 
 ### Explanation:
