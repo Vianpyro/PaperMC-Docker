@@ -2,10 +2,10 @@
 name: Lint
 
 on:
-  push: null
-  pull_request:
+  push:
     branches:
       - master
+  pull_request:  null
 
 permissions: {}
 
