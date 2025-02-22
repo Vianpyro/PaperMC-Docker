@@ -133,9 +133,10 @@ If the server becomes unresponsive, Docker will mark the container as unhealthy 
 
 ## Docker Compose Example
 
-If you're using **Docker Compose** to manage your containers, here's an example `docker-compose.yml` file for running multiple Minecraft server instances:
+Using **Docker Compose**, you can manage multiple Minecraft server instances more easily.
 
 ```yaml
+version: "3.8"
 services:
     papermc-server-1:
         image: papermc-server
@@ -164,42 +165,22 @@ services:
         restart: unless-stopped
         stdin_open: true
         tty: true
-
-    papermc-server-3:
-        image: papermc-server
-        container_name: papermc-server-3
-        user: "1001:1001"
-        volumes:
-            - /path/to/minecraft/data-3:/server
-        ports:
-            - "25567:25565"
-        environment:
-            - EULA=true
-            - MC_VERSION=1.17.1
-            - MC_RAM=4G
-        restart: always
-        stdin_open: true
-        tty: true
-
-    papermc-server-4:
-        image: papermc-server
-        container_name: papermc-server-4
-        user: "1004:1004"
-        volumes:
-            - /path/to/minecraft/data-4:/server
-        ports:
-            - "25568:25565"
-        environment:
-            - EULA=true
-            - MC_VERSION=1.16.5
-            - MC_RAM=6G
-            - JAVA_OPTS=-XX:+UnlockExperimentalVMOptions
-        restart: unless-stopped
-        stdin_open: true
-        tty: true
 ```
 
-With **Docker Compose**, you can easily manage multiple instances of the Minecraft server by simply running:
+### Explanation
+
+-   `version: '3.8'`: Defines the Docker Compose file format.
+-   Each service represents a Minecraft server instance.
+-   `container_name`: Assigns a unique name for each container.
+-   `image: papermc-server`: Specifies the image to use.
+-   `user`: Runs the container as a specific non-root user for security.
+-   `volumes`: Mounts a directory for persistent data.
+-   `ports`: Maps the host machine's port to the container.
+-   `environment`: Sets environment variables.
+-   `stdin_open` & `tty`: Enables interactive mode for console interaction.
+-   `restart`: Ensures the container restarts automatically when needed.
+
+Start all servers using:
 
 ```bash
 docker-compose up -d
