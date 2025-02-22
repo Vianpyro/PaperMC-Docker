@@ -16,6 +16,12 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 
 -   **Docker**: Install Docker on your system if you haven't already. Follow the installation instructions at https://docs.docker.com/get-docker/.
 
+## Notes
+
+-   This image uses the `latest` tag for both Alpine and PaperMC versions.
+    While best practice is to pin specific versions for predictability and security, this project is all about staying on the cutting edge.
+    Security? It's taking a nice nap six feet under. LGTM 👍
+
 ## Minimum Arguments to Start the Container
 
 To start a Minecraft PaperMC server with the absolute minimum required arguments:
