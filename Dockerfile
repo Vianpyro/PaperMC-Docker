@@ -42,5 +42,5 @@ EXPOSE 25565/udp
 VOLUME /server
 
 # Healthcheck to ensure server is up and responding
-HEALTHCHECK --interval=5m --timeout=3s --start-period=30s --retries=3 \
-    CMD nc -z localhost 25565 || exit 1
+HEALTHCHECK --interval=5m --timeout=3s --start-period=90s --retries=3 \
+    CMD nc -z 0.0.0.0 25565 || exit 1
