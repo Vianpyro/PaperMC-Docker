@@ -3,6 +3,21 @@
 This repository contains a **Dockerfile** for creating a Minecraft Paper server, which can be easily configured and containerized using Docker.
 The image supports **dynamic version selection**, **custom RAM allocation**, **EULA acceptance**, and **custom ports** for running multiple server instances.
 
+## Table of Contents
+
+-   [Features](#features)
+-   [Prerequisites](#prerequisites)
+-   [Minimum Arguments to Start the Container](#minimum-arguments-to-start-the-container)
+-   [Setup Instructions](#setup-instructions)
+    -   [Build the Docker Image](#build-the-docker-image)
+    -   [Run the Docker Container](#run-the-docker-container)
+-   [Environment Variables](#environment-variables)
+-   [Data Persistence](#data-persistence)
+-   [Health Check](#health-check)
+-   [Docker Compose Example](#docker-compose-example)
+-   [Additional Notes](#additional-notes)
+-   [License](#license)
+
 ## Features
 
 -   **Use of Alpine Base**: A small and efficient base image (`alpine:latest`) with OpenJDK 21 for better security and performance.
@@ -33,7 +48,6 @@ docker run -d papermc-server
 ### Explanation:
 
 -   `-d` → Runs the container in detached mode (in the background)
--   `-e EULA=true` → Accepts the EULA, which is required for the server to start
 -   `papermc-server` → The name of the Docker image
 
 By default, the container will use `MC_VERSION=latest`, `MC_RAM=2G`, and other default values from the `Dockerfile`.
