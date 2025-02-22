@@ -136,18 +136,15 @@ If the server becomes unresponsive, Docker will mark the container as unhealthy 
 If you're using **Docker Compose** to manage your containers, here's an example `docker-compose.yml` file for running multiple Minecraft server instances:
 
 ```yaml
-version: "3.8"
-
 services:
     papermc-server-1:
         image: papermc-server
         container_name: papermc-server-1
+        user: "1001:1001"
+        volumes:
+            - /path/to/minecraft/data-1:/server
         ports:
             - "25565:25565"
-        environment:
-            - EULA=true
-            - MC_VERSION=latest
-            - MC_RAM=2G
         restart: always
         stdin_open: true
         tty: true
@@ -155,28 +152,49 @@ services:
     papermc-server-2:
         image: papermc-server
         container_name: papermc-server-2
+        user: "1001:1001"
+        volumes:
+            - /path/to/minecraft/data-2:/server
         ports:
             - "25566:25565"
         environment:
             - EULA=true
-            - MC_VERSION=1.18.1
-            - MC_RAM=4G
-        restart: always
+            - MC_RAM=3G
+            - MC_VERSION=1.18.2
+        restart: unless-stopped
         stdin_open: true
         tty: true
 
     papermc-server-3:
         image: papermc-server
         container_name: papermc-server-3
-        ports:
-            - "25567:25565"
+        user: "1001:1001"
         volumes:
             - /path/to/minecraft/data-3:/server
+        ports:
+            - "25567:25565"
         environment:
             - EULA=true
             - MC_VERSION=1.17.1
             - MC_RAM=4G
         restart: always
+        stdin_open: true
+        tty: true
+
+    papermc-server-4:
+        image: papermc-server
+        container_name: papermc-server-4
+        user: "1004:1004"
+        volumes:
+            - /path/to/minecraft/data-4:/server
+        ports:
+            - "25568:25565"
+        environment:
+            - EULA=true
+            - MC_VERSION=1.16.5
+            - MC_RAM=6G
+            - JAVA_OPTS=-XX:+UnlockExperimentalVMOptions
+        restart: unless-stopped
         stdin_open: true
         tty: true
 ```
@@ -187,7 +205,7 @@ With **Docker Compose**, you can easily manage multiple instances of the Minecra
 docker-compose up -d
 ```
 
-This will launch all three Minecraft servers on different ports.
+This will launch all four Minecraft servers on different ports.
 
 ---
 
