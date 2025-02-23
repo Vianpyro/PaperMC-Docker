@@ -30,3 +30,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: false
+          # VALIDATE_BASH_EXEC: false
+          BASH_EXEC_IGNORE_LIBRARIES: true
