@@ -50,13 +50,16 @@ fi
 echo "eula=${EULA:-false}" > eula.txt
 
 # Ensure JAVA_OPTS is initialized correctly
-JAVA_OPTS="${JAVA_OPTS:-}"
+JAVA_OPTS_ARRAY=()
+if [[ -n $JAVA_OPTS ]]; then
+    read -r -a JAVA_OPTS_ARRAY <<< "$JAVA_OPTS"
+fi
 
 # Append MC_RAM settings if specified
 if [[ -n $MC_RAM ]]; then
-  JAVA_OPTS="${JAVA_OPTS} -Xms${MC_RAM} -Xmx${MC_RAM}"
+    JAVA_OPTS_ARRAY+=("-Xms${MC_RAM}" "-Xmx${MC_RAM}")
 fi
 
 # Start the Minecraft server with the provided configuration
-echo "Starting Minecraft server with options: $JAVA_OPTS"
-exec java -server ${JAVA_OPTS} -jar server.jar nogui
+echo "Starting Minecraft server with options: ${JAVA_OPTS_ARRAY[*]}"
+exec java -server "${JAVA_OPTS_ARRAY[@]}" -jar server.jar nogui
