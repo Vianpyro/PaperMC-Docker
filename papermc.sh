@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Enter the papermc directory
-cd /server
+cd /server || exit
 
 # Set default values if not provided
-: ${MC_VERSION:='latest'}
-: ${PAPER_BUILD:='latest'}
+: "${MC_VERSION:='latest'}"
+: "${PAPER_BUILD:='latest'}"
 
 # Convert to lowercase to avoid 404 errors with wget
 MC_VERSION="${MC_VERSION,,}"
@@ -21,7 +21,7 @@ fi
 # Get the latest stable build for the specified Minecraft version
 MINECRAFT_VERSION="${MC_VERSION}"
 
-LATEST_BUILD=$(curl -s https://api.papermc.io/v2/projects/paper/versions/${MINECRAFT_VERSION}/builds | \
+LATEST_BUILD=$(curl -s "https://api.papermc.io/v2/projects/paper/versions/${MINECRAFT_VERSION}/builds" | \
     jq -r '.builds | map(select(.channel == "default") | .build) | .[-1]')
 
 if [[ "$LATEST_BUILD" != "null" ]]; then
@@ -42,7 +42,7 @@ rm -f paper-*.jar
 # Download the latest server jar
 if [[ ! -f $JAR_NAME ]]; then
     echo "Downloading Paper server jar for ${MINECRAFT_VERSION}-${PAPER_BUILD}..."
-    curl -o server.jar $PAPERMC_URL
+    curl -o server.jar "$PAPERMC_URL"
     echo "Download completed"
 fi
 
@@ -59,4 +59,4 @@ fi
 
 # Start the Minecraft server with the provided configuration
 echo "Starting Minecraft server with options: $JAVA_OPTS"
-exec java -server $JAVA_OPTS -jar server.jar nogui
+exec java -server $(echo "$JAVA_OPTS") -jar server.jar nogui
