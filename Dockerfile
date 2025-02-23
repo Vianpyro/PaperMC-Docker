@@ -35,9 +35,8 @@ USER minecraft
 # Start the Minecraft server using the bash script
 CMD ["bash", "/papermc.sh"]
 
-# Expose the server port
+# Expose the TCP port for Minecraft server
 EXPOSE 25565/tcp
-EXPOSE 25565/udp
 
 # Define the volume for Minecraft server data (to persist data)
 VOLUME /server
