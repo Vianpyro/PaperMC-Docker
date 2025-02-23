@@ -50,7 +50,7 @@ docker run -d papermc-server
 -   `-d` → Runs the container in detached mode (in the background)
 -   `papermc-server` → The name of the Docker image
 
-By default, the container will use `MC_VERSION=latest`, `MC_RAM=2G`, and other default values from the `Dockerfile`.
+By default, the container will use `MC_VERSION=latest`, `MC_RAM=6G`, and other default values from the `Dockerfile`.
 However, **players will not be able to join** since no ports are exposed.
 
 To allow players to connect, expose the necessary ports:
@@ -82,7 +82,7 @@ docker run -dit -p 25565:25565 --name papermc-server-1 \
   --restart unless-stopped \
   -e EULA=true \
   -e MC_VERSION=latest \
-  -e MC_RAM=2G \
+  -e MC_RAM=6G \
   papermc-server
 ```
 
@@ -126,7 +126,7 @@ The following environment variables are available for configuring the Minecraft 
 -   **`MC_VERSION`**: Set the Minecraft version you want to run. Default: `latest`. Example: `1.18.1`.
 -   **`PAPER_BUILD`**: Set the build number for Paper. Default: `latest`.
 -   **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
--   **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `2G`.
+-   **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `6G`.
 
 > [!NOTE]
 > PaperMC recommends allocating at least **6-10GB of RAM**, regardless of the number of players.
@@ -177,7 +177,7 @@ services:
             - "25566:25565"
         environment:
             - EULA=true
-            - MC_RAM=6G
+            - MC_RAM=5120M
             - MC_VERSION=1.18.2
         restart: unless-stopped
         stdin_open: true

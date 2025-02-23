@@ -5,7 +5,7 @@ FROM alpine:latest
 ENV MC_VERSION="latest" \
     PAPER_BUILD="latest" \
     EULA="false" \
-    MC_RAM="2G" \
+    MC_RAM="6G" \
     JAVA_OPTS=""
 
 # Copy the startup script to the container root
