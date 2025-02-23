@@ -5,35 +5,35 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 
 ## Table of Contents
 
--   [Features](#features)
--   [Prerequisites](#prerequisites)
--   [Minimum Arguments to Start the Container](#minimum-arguments-to-start-the-container)
--   [Setup Instructions](#setup-instructions)
-    -   [Build the Docker Image](#build-the-docker-image)
-    -   [Run the Docker Container](#run-the-docker-container)
--   [Environment Variables](#environment-variables)
--   [Data Persistence](#data-persistence)
--   [Health Check](#health-check)
--   [Docker Compose Example](#docker-compose-example)
--   [Additional Notes](#additional-notes)
--   [License](#license)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Minimum Arguments to Start the Container](#minimum-arguments-to-start-the-container)
+- [Setup Instructions](#setup-instructions)
+    - [Build the Docker Image](#build-the-docker-image)
+    - [Run the Docker Container](#run-the-docker-container)
+- [Environment Variables](#environment-variables)
+- [Data Persistence](#data-persistence)
+- [Health Check](#health-check)
+- [Docker Compose Example](#docker-compose-example)
+- [Additional Notes](#additional-notes)
+- [License](#license)
 
 ## Features
 
--   **Use of Alpine Base**: A small and efficient base image (`alpine:latest`) with OpenJDK 21 for better security and performance.
--   **Dynamic Versioning**: Choose between the latest version or specify a particular Minecraft version.
--   **Custom RAM Allocation**: Dynamically allocate memory using the `MC_RAM` environment variable.
--   **EULA Acceptance**: Dynamically set the EULA acceptance (`EULA=true` or `EULA=false`).
--   **Data Persistence**: Use Docker volumes or bind mounts to persist Minecraft world data, configurations, and backups.
--   **Health Check**: Automatically restarts the container if the server is unresponsive, ensuring the server remains online.
+- **Use of Alpine Base**: A small and efficient base image (`alpine:latest`) with OpenJDK 21 for better security and performance.
+- **Dynamic Versioning**: Choose between the latest version or specify a particular Minecraft version.
+- **Custom RAM Allocation**: Dynamically allocate memory using the `MC_RAM` environment variable.
+- **EULA Acceptance**: Dynamically set the EULA acceptance (`EULA=true` or `EULA=false`).
+- **Data Persistence**: Use Docker volumes or bind mounts to persist Minecraft world data, configurations, and backups.
+- **Health Check**: Automatically restarts the container if the server is unresponsive, ensuring the server remains online.
 
 ## Prerequisites
 
--   **Docker**: Install Docker on your system if you haven't already. Follow the installation instructions at https://docs.docker.com/get-docker/.
+- **Docker**: Install Docker on your system if you haven't already. Follow the installation instructions at [Get Docker](https://docs.docker.com/get-docker/).
 
 ## Notes
 
--   This image uses the `latest` tag for both Alpine and PaperMC versions.
+- This image uses the `latest` tag for both Alpine and PaperMC versions.
     While best practice is to pin specific versions for predictability and security, this project is all about staying on the cutting edge.
     Security? It's taking a nice nap six feet under. LGTM 👍
 
@@ -45,10 +45,10 @@ To start a Minecraft PaperMC server with the absolute minimum required arguments
 docker run -d papermc-server
 ```
 
-### Explanation:
+### Explanation
 
--   `-d` → Runs the container in detached mode (in the background)
--   `papermc-server` → The name of the Docker image
+- `-d` → Runs the container in detached mode (in the background)
+- `papermc-server` → The name of the Docker image
 
 By default, the container will use `MC_VERSION=latest`, `MC_RAM=6G`, and other default values from the `Dockerfile`.
 However, **players will not be able to join** since no ports are exposed.
@@ -123,10 +123,10 @@ To detach from the console without stopping the server, use `Ctrl + P`, `Ctrl + 
 
 The following environment variables are available for configuring the Minecraft server:
 
--   **`MC_VERSION`**: Set the Minecraft version you want to run. Default: `latest`. Example: `1.18.1`.
--   **`PAPER_BUILD`**: Set the build number for Paper. Default: `latest`.
--   **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
--   **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `6G`.
+- **`MC_VERSION`**: Set the Minecraft version you want to run. Default: `latest`. Example: `1.18.1`.
+- **`PAPER_BUILD`**: Set the build number for Paper. Default: `latest`.
+- **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
+- **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `6G`.
 
 > [!NOTE]
 > PaperMC recommends allocating at least **6-10GB of RAM**, regardless of the number of players.
@@ -219,16 +219,16 @@ services:
 
 ### Explanation
 
--   `version: '3.8'`: Defines the Docker Compose file format.
--   Each service represents a Minecraft server instance.
--   `container_name`: Assigns a unique name for each container.
--   `image: papermc-server`: Specifies the image to use.
--   `user`: Runs the container as a specific non-root user for security.
--   `volumes`: Mounts a directory for persistent data.
--   `ports`: Maps the host machine's port to the container.
--   `environment`: Sets environment variables.
--   `stdin_open` & `tty`: Enables interactive mode for console interaction.
--   `restart`: Ensures the container restarts automatically when needed.
+- `version: '3.8'`: Defines the Docker Compose file format.
+- Each service represents a Minecraft server instance.
+- `container_name`: Assigns a unique name for each container.
+- `image: papermc-server`: Specifies the image to use.
+- `user`: Runs the container as a specific non-root user for security.
+- `volumes`: Mounts a directory for persistent data.
+- `ports`: Maps the host machine's port to the container.
+- `environment`: Sets environment variables.
+- `stdin_open` & `tty`: Enables interactive mode for console interaction.
+- `restart`: Ensures the container restarts automatically when needed.
 
 Start all servers using:
 
@@ -242,9 +242,9 @@ This will launch all Minecraft servers on different ports.
 
 ## Additional Notes
 
--   **Backups**: The persistent data stored in `/path/to/minecraft/data` (or any directory you specify) can be backed up, moved, or restored. Simply copy the contents of this directory to another location for safekeeping.
--   **Resource Usage**: Be mindful of the system resources (RAM and CPU) when running multiple Minecraft server instances. You may need to adjust your `MC_RAM` settings based on your hardware specifications.
--   **Docker Restart Policy**: The `--restart unless-stopped` flag ensures that the Minecraft server container will restart if it crashes or if Docker is restarted.
+- **Backups**: The persistent data stored in `/path/to/minecraft/data` (or any directory you specify) can be backed up, moved, or restored. Simply copy the contents of this directory to another location for safekeeping.
+- **Resource Usage**: Be mindful of the system resources (RAM and CPU) when running multiple Minecraft server instances. You may need to adjust your `MC_RAM` settings based on your hardware specifications.
+- **Docker Restart Policy**: The `--restart unless-stopped` flag ensures that the Minecraft server container will restart if it crashes or if Docker is restarted.
 
 ## License
 
