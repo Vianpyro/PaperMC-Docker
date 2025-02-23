@@ -9,8 +9,8 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 - [Prerequisites](#prerequisites)
 - [Minimum Arguments to Start the Container](#minimum-arguments-to-start-the-container)
 - [Setup Instructions](#setup-instructions)
-    - [Build the Docker Image](#build-the-docker-image)
-    - [Run the Docker Container](#run-the-docker-container)
+  - [Build the Docker Image](#build-the-docker-image)
+  - [Run the Docker Container](#run-the-docker-container)
 - [Environment Variables](#environment-variables)
 - [Data Persistence](#data-persistence)
 - [Health Check](#health-check)
@@ -34,8 +34,8 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
 ## Notes
 
 - This image uses the `latest` tag for both Alpine and PaperMC versions.
-    While best practice is to pin specific versions for predictability and security, this project is all about staying on the cutting edge.
-    Security? It's taking a nice nap six feet under. LGTM 👍
+  While best practice is to pin specific versions for predictability and security, this project is all about staying on the cutting edge.
+  Security? It's taking a nice nap six feet under. LGTM 👍
 
 ## Minimum Arguments to Start the Container
 
@@ -67,11 +67,11 @@ docker run -d -p 25565:25565 -e EULA=true papermc-server
 2. Navigate to the directory where the Dockerfile is located.
 3. Build the Docker image using the following command:
 
-    ```bash
-    docker build -t papermc-server .
-    ```
+   ```bash
+   docker build -t papermc-server .
+   ```
 
-    This will create the `papermc-server` Docker image.
+   This will create the `papermc-server` Docker image.
 
 ### Run the Docker Container
 
@@ -155,66 +155,66 @@ Using **Docker Compose**, you can manage multiple Minecraft server instances mor
 
 ```yaml
 services:
-    papermc-server-1:
-        image: papermc-server
-        container_name: papermc-server-1
-        user: "1001:1001"
-        volumes:
-            - /path/to/minecraft/data-1:/server
-        ports:
-            - "25565:25565"
-        restart: always
-        stdin_open: true
-        tty: true
+  papermc-server-1:
+    image: papermc-server
+    container_name: papermc-server-1
+    user: "1001:1001"
+    volumes:
+      - /path/to/minecraft/data-1:/server
+    ports:
+      - "25565:25565"
+    restart: always
+    stdin_open: true
+    tty: true
 
-    papermc-server-2:
-        image: papermc-server
-        container_name: papermc-server-2
-        user: "1001:1001"
-        volumes:
-            - /path/to/minecraft/data-2:/server
-        ports:
-            - "25566:25565"
-        environment:
-            - EULA=true
-            - MC_RAM=5120M
-            - MC_VERSION=1.18.2
-        restart: unless-stopped
-        stdin_open: true
-        tty: true
+  papermc-server-2:
+    image: papermc-server
+    container_name: papermc-server-2
+    user: "1001:1001"
+    volumes:
+      - /path/to/minecraft/data-2:/server
+    ports:
+      - "25566:25565"
+    environment:
+      - EULA=true
+      - MC_RAM=5120M
+      - MC_VERSION=1.18.2
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
 
-    papermc-server-3:
-        image: papermc-server
-        container_name: papermc-server-3
-        user: "1001:1001"
-        volumes:
-            - /path/to/minecraft/data-3:/server
-        ports:
-            - "25567:25565"
-        environment:
-            - EULA=true
-            - MC_VERSION=1.17.1
-            - MC_RAM=4G
-        restart: always
-        stdin_open: true
-        tty: true
+  papermc-server-3:
+    image: papermc-server
+    container_name: papermc-server-3
+    user: "1001:1001"
+    volumes:
+      - /path/to/minecraft/data-3:/server
+    ports:
+      - "25567:25565"
+    environment:
+      - EULA=true
+      - MC_VERSION=1.17.1
+      - MC_RAM=4G
+    restart: always
+    stdin_open: true
+    tty: true
 
-    papermc-server-4:
-        image: papermc-server
-        container_name: papermc-server-4
-        user: "1004:1004"
-        volumes:
-            - /path/to/minecraft/data-4:/server
-        ports:
-            - "25568:25565"
-        environment:
-            - EULA=true
-            - MC_VERSION=1.16.5
-            - MC_RAM=10G
-            - JAVA_OPTS=-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions
-        restart: unless-stopped
-        stdin_open: true
-        tty: true
+  papermc-server-4:
+    image: papermc-server
+    container_name: papermc-server-4
+    user: "1004:1004"
+    volumes:
+      - /path/to/minecraft/data-4:/server
+    ports:
+      - "25568:25565"
+    environment:
+      - EULA=true
+      - MC_VERSION=1.16.5
+      - MC_RAM=10G
+      - JAVA_OPTS=-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
 ```
 
 ### Explanation
