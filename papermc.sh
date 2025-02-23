@@ -59,4 +59,4 @@ fi
 
 # Start the Minecraft server with the provided configuration
 echo "Starting Minecraft server with options: $JAVA_OPTS"
-exec java -server $(echo "$JAVA_OPTS") -jar server.jar nogui
+exec java -server ${JAVA_OPTS} -jar server.jar nogui
