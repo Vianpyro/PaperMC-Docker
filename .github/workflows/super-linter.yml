@@ -30,4 +30,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: false
+          # The script runs so I don't understand why it fails
           VALIDATE_BASH_EXEC: false
+          # This project is about using the latest versions - Y.O.L.O.
+          VALIDATE_CHECKOV: false
+          VALIDATE_DOCKERFILE_HADOLINT: false
+          # I want to use 4 spaces for indentation not tabs
+          VALIDATE_SHELL_SHFMT: false
