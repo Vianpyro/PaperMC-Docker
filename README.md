@@ -45,7 +45,7 @@ To start a Minecraft PaperMC server with the absolute minimum required arguments
 docker run -d papermc-server
 ```
 
-### Explanation
+### Basic Run Command Breakdown
 
 - `-d` → Runs the container in detached mode (in the background)
 - `papermc-server` → The name of the Docker image
@@ -217,7 +217,7 @@ services:
     tty: true
 ```
 
-### Explanation
+### Compose File Breakdown
 
 - `version: '3.8'`: Defines the Docker Compose file format.
 - Each service represents a Minecraft server instance.
