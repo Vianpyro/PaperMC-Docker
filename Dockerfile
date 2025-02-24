@@ -1,12 +1,13 @@
 # Use Alpine as the base image for smaller size and performance
 FROM alpine:latest
 
-# Environment variables for Minecraft configuration
+# Environment variables for configuration
 ENV MC_VERSION="latest" \
     PAPER_BUILD="latest" \
     EULA="false" \
     MC_RAM="6G" \
-    JAVA_OPTS=""
+    JAVA_OPTS="" \
+    TZ="UTC"
 
 # Copy the startup script to the container root
 COPY papermc.sh /papermc.sh
@@ -24,7 +25,10 @@ RUN apk update && apk add --no-cache \
     bash \
     wget \
     curl \
-    jq
+    jq \
+    tzdata && \
+    ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    echo "${TZ}" > /etc/timezone
 
 # Set the working directory inside the container
 WORKDIR /server

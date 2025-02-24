@@ -176,6 +176,7 @@ services:
     ports:
       - "25566:25565"
     environment:
+      - TZ=America/New_York  # Define timezone
       - EULA=true
       - MC_RAM=5120M
       - MC_VERSION=1.18.2
@@ -189,6 +190,8 @@ services:
     user: "1001:1001"
     volumes:
       - /path/to/minecraft/data-3:/server
+      - /etc/localtime:/etc/localtime:ro  # Sync timezone with host
+      - /etc/timezone:/etc/timezone:ro
     ports:
       - "25567:25565"
     environment:
@@ -225,10 +228,15 @@ services:
 - `image: papermc-server`: Specifies the image to use.
 - `user`: Runs the container as a specific non-root user for security.
 - `volumes`: Mounts a directory for persistent data.
+  - `/etc/localtime:/etc/localtime:ro` & `/etc/timezone:/etc/timezone:ro`: Ensures the container uses the host's timezone settings.
 - `ports`: Maps the host machine's port to the container.
-- `environment`: Sets environment variables.
+- `environment`: Sets environment variables, including `TZ` for timezone configuration.
 - `stdin_open` & `tty`: Enables interactive mode for console interaction.
 - `restart`: Ensures the container restarts automatically when needed.
+
+### Timezone Configuration
+- You can set the timezone using the `TZ` environment variable (e.g., `TZ=America/New_York`).
+- Alternatively, bind-mount `/etc/localtime` and `/etc/timezone` from the host for automatic syncing.
 
 Start all servers using:
 
