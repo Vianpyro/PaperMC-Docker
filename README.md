@@ -176,7 +176,7 @@ services:
     ports:
       - "25566:25565"
     environment:
-      - TZ=America/New_York  # Define timezone
+      - TZ=America/New_York # Define timezone
       - EULA=true
       - MC_RAM=5120M
       - MC_VERSION=1.18.2
@@ -190,7 +190,7 @@ services:
     user: "1001:1001"
     volumes:
       - /path/to/minecraft/data-3:/server
-      - /etc/localtime:/etc/localtime:ro  # Sync timezone with host
+      - /etc/localtime:/etc/localtime:ro # Sync timezone with host
       - /etc/timezone:/etc/timezone:ro
     ports:
       - "25567:25565"
@@ -235,6 +235,7 @@ services:
 - `restart`: Ensures the container restarts automatically when needed.
 
 ### Timezone Configuration
+
 - You can set the timezone using the `TZ` environment variable (e.g., `TZ=America/New_York`).
 - Alternatively, bind-mount `/etc/localtime` and `/etc/timezone` from the host for automatic syncing.
 
