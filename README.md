@@ -127,35 +127,16 @@ The following environment variables are available for configuring the Minecraft 
 - **`PAPER_BUILD`**: Set the build number for Paper. Default: `latest`.
 - **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
 - **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `6G`.
+- **`JAVA_OPTS`**: Additional Java options for customizing the JVM behavior. Example: `-Xms2G -Xmx4G -XX:+UseG1GC`.
+- **`USE_AIKAR_FLAGS`**: Set to true to enable Aikar’s JVM flags for optimized performance. Default: `true`.
 
 > [!NOTE]
 > PaperMC recommends allocating at least **6-10GB of RAM**, regardless of the number of players.
 > See [PaperMC's documentation](https://docs.papermc.io/paper/aikars-flags) for details.
 
-### Timezone Configuration
+### Argument Source
 
-By default, the container will inherit the host's timezone settings.
-If you need to define a specific timezone inside the container, uncomment the following line in the Dockerfile:
-
-```dockerfile
-# ENV TZ="Europe/Paris"
-```
-
-Or use bind mounts to synchronize with the host:
-
-```bash
-docker run -dit -p 25565:25565 --name papermc-server-1 \
-  -v /etc/localtime:/etc/localtime:ro \
-  -v /etc/timezone:/etc/timezone:ro \
-  -e EULA=true \
-  -e MC_RAM=6G \
-  papermc-server
-```
-
-### Health Check
-
-The Docker container includes a health check to ensure the server is up and responsive.
-If the server becomes unresponsive, Docker will mark the container as unhealthy and attempt to restart it.
+The environment variables used in this script are based on the recommendations from the official PaperMC start script generator: [PaperMC Start Script Generator](https://docs.papermc.io/misc/tools/start-script-gen).
 
 ## Docker Compose Example
 
