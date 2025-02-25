@@ -138,6 +138,31 @@ The following environment variables are available for configuring the Minecraft 
 
 The environment variables used in this script are based on the recommendations from the official PaperMC start script generator: [PaperMC Start Script Generator](https://docs.papermc.io/misc/tools/start-script-gen).
 
+### Timezone Configuration
+
+By default, the container will inherit the host's timezone settings.
+If you need to define a specific timezone inside the container, uncomment the following line in the Dockerfile:
+
+```dockerfile
+# ENV TZ="Europe/Paris"
+```
+
+Or use bind mounts to synchronize with the host:
+
+```bash
+docker run -dit -p 25565:25565 --name papermc-server-1 \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v /etc/timezone:/etc/timezone:ro \
+  -e EULA=true \
+  -e MC_RAM=6G \
+  papermc-server
+```
+
+### Health Check
+
+The Docker container includes a health check to ensure the server is up and responsive.
+If the server becomes unresponsive, Docker will mark the container as unhealthy and attempt to restart it.
+
 ## Docker Compose Example
 
 Using **Docker Compose**, you can manage multiple Minecraft server instances more easily.

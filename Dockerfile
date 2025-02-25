@@ -20,12 +20,12 @@ RUN addgroup -S minecraft && adduser -S minecraft -G minecraft && \
 
 # Install necessary packages
 RUN apk add --no-cache \
+    libstdc++ \
     openjdk21-jre \
     bash \
     curl \
     jq \
-    tzdata \
-    libstdc++
+    tzdata
 
 # Set the working directory inside the container
 WORKDIR /server

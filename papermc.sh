@@ -78,4 +78,4 @@ fi
 
 # Start the Minecraft server
 echo "Starting Minecraft server with options: ${JAVA_OPTS_ARRAY[*]}"
-exec java -server "${JAVA_OPTS_ARRAY[@]}" -jar server.jar nog
+exec java -server "${JAVA_OPTS_ARRAY[@]}" -jar server.jar nogui
