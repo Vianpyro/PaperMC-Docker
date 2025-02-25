@@ -6,10 +6,8 @@ ENV MC_VERSION="latest" \
     PAPER_BUILD="latest" \
     EULA="false" \
     MC_RAM="6G" \
-    JAVA_OPTS=""
-
-# Uncomment the following line to set a specific timezone
-# ENV TZ="Europe/Paris"
+    JAVA_OPTS="" \
+    USE_AIKAR_FLAGS="true"
 
 # Copy the startup script to the container root
 COPY papermc.sh /papermc.sh
@@ -21,14 +19,13 @@ RUN addgroup -S minecraft && adduser -S minecraft -G minecraft && \
     chmod +x /papermc.sh
 
 # Install necessary packages
-RUN apk update && apk add --no-cache \
-    libstdc++ \
+RUN apk add --no-cache \
     openjdk21-jre \
     bash \
-    wget \
     curl \
     jq \
-    tzdata
+    tzdata \
+    libstdc++
 
 # Set the working directory inside the container
 WORKDIR /server
