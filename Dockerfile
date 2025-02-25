@@ -6,8 +6,10 @@ ENV MC_VERSION="latest" \
     PAPER_BUILD="latest" \
     EULA="false" \
     MC_RAM="6G" \
-    JAVA_OPTS="" \
-    TZ="UTC"
+    JAVA_OPTS=""
+
+# Uncomment the following line to set a specific timezone
+# ENV TZ="Europe/Paris"
 
 # Copy the startup script to the container root
 COPY papermc.sh /papermc.sh
@@ -26,9 +28,7 @@ RUN apk update && apk add --no-cache \
     wget \
     curl \
     jq \
-    tzdata && \
-    ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" > /etc/timezone
+    tzdata
 
 # Set the working directory inside the container
 WORKDIR /server

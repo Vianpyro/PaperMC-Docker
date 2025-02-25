@@ -132,17 +132,25 @@ The following environment variables are available for configuring the Minecraft 
 > PaperMC recommends allocating at least **6-10GB of RAM**, regardless of the number of players.
 > See [PaperMC's documentation](https://docs.papermc.io/paper/aikars-flags) for details.
 
-### Data Persistence
+### Timezone Configuration
 
-To persist data across container restarts, you can mount a host directory as a volume.
-For example, to mount `/path/to/minecraft/data` from your host machine add this argument:
+By default, the container will inherit the host's timezone settings.
+If you need to define a specific timezone inside the container, uncomment the following line in the Dockerfile:
 
-```bash
--v /path/to/minecraft/data:/server
+```dockerfile
+# ENV TZ="Europe/Paris"
 ```
 
-This ensures that Minecraft's world data, server settings, and other configurations are saved outside the container.
-You can then back up the data or transfer it to a different server as needed.
+Or use bind mounts to synchronize with the host:
+
+```bash
+docker run -dit -p 25565:25565 --name papermc-server-1 \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v /etc/timezone:/etc/timezone:ro \
+  -e EULA=true \
+  -e MC_RAM=6G \
+  papermc-server
+```
 
 ### Health Check
 
@@ -176,7 +184,6 @@ services:
     ports:
       - "25566:25565"
     environment:
-      - TZ=America/New_York # Define timezone
       - EULA=true
       - MC_RAM=5120M
       - MC_VERSION=1.18.2
@@ -233,12 +240,6 @@ services:
 - `environment`: Sets environment variables, including `TZ` for timezone configuration.
 - `stdin_open` & `tty`: Enables interactive mode for console interaction.
 - `restart`: Ensures the container restarts automatically when needed.
-
-### Timezone Configuration
-
-- You can set the timezone using the `TZ` environment variable (e.g., `TZ=America/New_York`).
-- Alternatively, bind-mount `/etc/localtime` and `/etc/timezone` from the host for automatic syncing.
-
 Start all servers using:
 
 ```bash
@@ -251,7 +252,7 @@ This will launch all Minecraft servers on different ports.
 
 ## Additional Notes
 
-- **Backups**: The persistent data stored in `/path/to/minecraft/data` (or any directory you specify) can be backed up, moved, or restored. Simply copy the contents of this directory to another location for safekeeping.
+- **Backups**: The persistent data stored in `/server` can be backed up, moved, or restored. Simply copy the contents of this directory to another location for safekeeping.
 - **Resource Usage**: Be mindful of the system resources (RAM and CPU) when running multiple Minecraft server instances. You may need to adjust your `MC_RAM` settings based on your hardware specifications.
 - **Docker Restart Policy**: The `--restart unless-stopped` flag ensures that the Minecraft server container will restart if it crashes or if Docker is restarted.
 
