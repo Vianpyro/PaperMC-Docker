@@ -9,6 +9,9 @@ ENV MC_VERSION="latest" \
     JAVA_OPTS="" \
     USE_AIKAR_FLAGS="true"
 
+# Uncomment the following line to set a specific timezone
+# ENV TZ="Europe/Paris"
+
 # Copy the startup script to the container root
 COPY papermc.sh /papermc.sh
 

@@ -121,10 +121,8 @@ The following environment variables are available for configuring the Minecraft 
 > [!NOTE]
 > PaperMC recommends allocating at least **6-10GB of RAM**, regardless of the number of players.
 > See [PaperMC's documentation](https://docs.papermc.io/paper/aikars-flags) for details.
-
-### Argument Source
-
-The environment variables used in this script are based on the recommendations from the official PaperMC start script generator: [PaperMC Start Script Generator](https://docs.papermc.io/misc/tools/start-script-gen).
+>
+> The `USE_AIKAR_FLAGS` environment variable add the Java options from the official PaperMC start script generator: [PaperMC Start Script Generator](https://docs.papermc.io/misc/tools/start-script-gen).
 
 ### Timezone Configuration
 
