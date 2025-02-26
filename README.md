@@ -78,32 +78,20 @@ docker run -d -p 25565:25565 -e EULA=true papermc-server
 #### Example: Run Minecraft Server on Default Port (25565)
 
 ```bash
-docker run -dit -p 25565:25565 --name papermc-server-1 \
-  --restart unless-stopped \
-  -e EULA=true \
-  -e MC_VERSION=latest \
-  -e MC_RAM=6G \
-  papermc-server
+docker run -dit -p 25565:25565 --name papermc-server-1 papermc-server
 ```
 
 #### Example: Run Minecraft Server on Custom Port (25566)
 
 ```bash
-docker run -dit -p 25566:25565 --name papermc-server-2 \
-  --restart unless-stopped \
-  -e EULA=true \
-  -e MC_VERSION=1.18.1 \
-  -e MC_RAM=4G \
-  papermc-server
+docker run -dit -p 4269:25565 --name papermc-server-2 papermc-server
 ```
 
 #### Example: Run Minecraft Server with Custom Version and RAM Allocation
 
 ```bash
-docker run -dit -p 25567:25565 --name papermc-server-3 \
-  --restart unless-stopped \
-  -e EULA=true \
-  -e MC_VERSION=1.17.1 \
+docker run -dit -p 25565:25565 --name papermc-server-3 \
+  -e MC_VERSION=1.20.1 \
   -e MC_RAM=4G \
   papermc-server
 ```
@@ -153,8 +141,6 @@ Or use bind mounts to synchronize with the host:
 docker run -dit -p 25565:25565 --name papermc-server-1 \
   -v /etc/localtime:/etc/localtime:ro \
   -v /etc/timezone:/etc/timezone:ro \
-  -e EULA=true \
-  -e MC_RAM=6G \
   papermc-server
 ```
 
@@ -190,9 +176,11 @@ services:
     ports:
       - "25566:25565"
     environment:
+      - MC_VERSION=1.18.2
+      - PAPER_BUILD=333
       - EULA=true
       - MC_RAM=5120M
-      - MC_VERSION=1.18.2
+      - USE_AIKAR_FLAGS=true
     restart: unless-stopped
     stdin_open: true
     tty: true
@@ -203,32 +191,16 @@ services:
     user: "1001:1001"
     volumes:
       - /path/to/minecraft/data-3:/server
-      - /etc/localtime:/etc/localtime:ro # Sync timezone with host
+      - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
       - "25567:25565"
     environment:
-      - EULA=true
       - MC_VERSION=1.17.1
-      - MC_RAM=4G
-    restart: always
-    stdin_open: true
-    tty: true
-
-  papermc-server-4:
-    image: papermc-server
-    container_name: papermc-server-4
-    user: "1004:1004"
-    volumes:
-      - /path/to/minecraft/data-4:/server
-    ports:
-      - "25568:25565"
-    environment:
       - EULA=true
-      - MC_VERSION=1.16.5
-      - MC_RAM=10G
+      - MC_RAM=4G
       - JAVA_OPTS=-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions
-    restart: unless-stopped
+    restart: always
     stdin_open: true
     tty: true
 ```
