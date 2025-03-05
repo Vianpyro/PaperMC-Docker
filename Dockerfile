@@ -6,7 +6,8 @@ ENV MC_VERSION="latest" \
     PAPER_BUILD="latest" \
     EULA="false" \
     MC_RAM="6G" \
-    JAVA_OPTS=""
+    JAVA_OPTS="" \
+    USE_AIKAR_FLAGS="true"
 
 # Uncomment the following line to set a specific timezone
 # ENV TZ="Europe/Paris"
@@ -21,11 +22,10 @@ RUN addgroup -S minecraft && adduser -S minecraft -G minecraft && \
     chmod +x /papermc.sh
 
 # Install necessary packages
-RUN apk update && apk add --no-cache \
+RUN apk add --no-cache \
     libstdc++ \
     openjdk21-jre \
     bash \
-    wget \
     curl \
     jq \
     tzdata

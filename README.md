@@ -12,7 +12,7 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
   - [Build the Docker Image](#build-the-docker-image)
   - [Run the Docker Container](#run-the-docker-container)
 - [Environment Variables](#environment-variables)
-- [Data Persistence](#data-persistence)
+- [Timezone Configuration](#timezone-configuration)
 - [Health Check](#health-check)
 - [Docker Compose Example](#docker-compose-example)
 - [Additional Notes](#additional-notes)
@@ -78,32 +78,20 @@ docker run -d -p 25565:25565 -e EULA=true papermc-server
 #### Example: Run Minecraft Server on Default Port (25565)
 
 ```bash
-docker run -dit -p 25565:25565 --name papermc-server-1 \
-  --restart unless-stopped \
-  -e EULA=true \
-  -e MC_VERSION=latest \
-  -e MC_RAM=6G \
-  papermc-server
+docker run -dit -p 25565:25565 --name papermc-server-1 papermc-server
 ```
 
 #### Example: Run Minecraft Server on Custom Port (25566)
 
 ```bash
-docker run -dit -p 25566:25565 --name papermc-server-2 \
-  --restart unless-stopped \
-  -e EULA=true \
-  -e MC_VERSION=1.18.1 \
-  -e MC_RAM=4G \
-  papermc-server
+docker run -dit -p 4269:25565 --name papermc-server-2 papermc-server
 ```
 
 #### Example: Run Minecraft Server with Custom Version and RAM Allocation
 
 ```bash
-docker run -dit -p 25567:25565 --name papermc-server-3 \
-  --restart unless-stopped \
-  -e EULA=true \
-  -e MC_VERSION=1.17.1 \
+docker run -dit -p 25565:25565 --name papermc-server-3 \
+  -e MC_VERSION=1.20.1 \
   -e MC_RAM=4G \
   papermc-server
 ```
@@ -127,10 +115,14 @@ The following environment variables are available for configuring the Minecraft 
 - **`PAPER_BUILD`**: Set the build number for Paper. Default: `latest`.
 - **`EULA`**: Set whether you accept the Minecraft EULA. Accepting is required to run the server. Default: `false`. Set it to `true` to accept the EULA.
 - **`MC_RAM`**: Set the amount of RAM to allocate for the Minecraft server. Example: `2048M`, `4G`. Default: `6G`.
+- **`JAVA_OPTS`**: Additional Java options for customizing the JVM behavior. Example: `-Xms2G -Xmx4G -XX:+UseG1GC`.
+- **`USE_AIKAR_FLAGS`**: Set to true to enable Aikar’s JVM flags for optimized performance. Default: `true`.
 
 > [!NOTE]
 > PaperMC recommends allocating at least **6-10GB of RAM**, regardless of the number of players.
 > See [PaperMC's documentation](https://docs.papermc.io/paper/aikars-flags) for details.
+>
+> The `USE_AIKAR_FLAGS` environment variable add the Java options from the official PaperMC start script generator: [PaperMC Start Script Generator](https://docs.papermc.io/misc/tools/start-script-gen).
 
 ### Timezone Configuration
 
@@ -147,8 +139,6 @@ Or use bind mounts to synchronize with the host:
 docker run -dit -p 25565:25565 --name papermc-server-1 \
   -v /etc/localtime:/etc/localtime:ro \
   -v /etc/timezone:/etc/timezone:ro \
-  -e EULA=true \
-  -e MC_RAM=6G \
   papermc-server
 ```
 
@@ -184,9 +174,11 @@ services:
     ports:
       - "25566:25565"
     environment:
+      - MC_VERSION=1.18.2
+      - PAPER_BUILD=333
       - EULA=true
       - MC_RAM=5120M
-      - MC_VERSION=1.18.2
+      - USE_AIKAR_FLAGS=true
     restart: unless-stopped
     stdin_open: true
     tty: true
@@ -197,32 +189,16 @@ services:
     user: "1001:1001"
     volumes:
       - /path/to/minecraft/data-3:/server
-      - /etc/localtime:/etc/localtime:ro # Sync timezone with host
+      - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
       - "25567:25565"
     environment:
-      - EULA=true
       - MC_VERSION=1.17.1
-      - MC_RAM=4G
-    restart: always
-    stdin_open: true
-    tty: true
-
-  papermc-server-4:
-    image: papermc-server
-    container_name: papermc-server-4
-    user: "1004:1004"
-    volumes:
-      - /path/to/minecraft/data-4:/server
-    ports:
-      - "25568:25565"
-    environment:
       - EULA=true
-      - MC_VERSION=1.16.5
-      - MC_RAM=10G
+      - MC_RAM=4G
       - JAVA_OPTS=-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions
-    restart: unless-stopped
+    restart: always
     stdin_open: true
     tty: true
 ```
@@ -235,11 +211,13 @@ services:
 - `image: papermc-server`: Specifies the image to use.
 - `user`: Runs the container as a specific non-root user for security.
 - `volumes`: Mounts a directory for persistent data.
+  - `/path/to/minecraft/data:/server`: Persists Minecraft server files by mapping them to the host.
   - `/etc/localtime:/etc/localtime:ro` & `/etc/timezone:/etc/timezone:ro`: Ensures the container uses the host's timezone settings.
 - `ports`: Maps the host machine's port to the container.
 - `environment`: Sets environment variables, including `TZ` for timezone configuration.
 - `stdin_open` & `tty`: Enables interactive mode for console interaction.
 - `restart`: Ensures the container restarts automatically when needed.
+
 Start all servers using:
 
 ```bash
