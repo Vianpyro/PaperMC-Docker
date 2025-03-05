@@ -217,6 +217,7 @@ services:
 - `environment`: Sets environment variables, including `TZ` for timezone configuration.
 - `stdin_open` & `tty`: Enables interactive mode for console interaction.
 - `restart`: Ensures the container restarts automatically when needed.
+
 Start all servers using:
 
 ```bash
