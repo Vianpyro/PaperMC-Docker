@@ -12,7 +12,7 @@ The image supports **dynamic version selection**, **custom RAM allocation**, **E
   - [Build the Docker Image](#build-the-docker-image)
   - [Run the Docker Container](#run-the-docker-container)
 - [Environment Variables](#environment-variables)
-- [Data Persistence](#data-persistence)
+- [Timezone Configuration](#timezone-configuration)
 - [Health Check](#health-check)
 - [Docker Compose Example](#docker-compose-example)
 - [Additional Notes](#additional-notes)
@@ -211,6 +211,7 @@ services:
 - `image: papermc-server`: Specifies the image to use.
 - `user`: Runs the container as a specific non-root user for security.
 - `volumes`: Mounts a directory for persistent data.
+  - `/path/to/minecraft/data:/server`: Persists Minecraft server files by mapping them to the host.
   - `/etc/localtime:/etc/localtime:ro` & `/etc/timezone:/etc/timezone:ro`: Ensures the container uses the host's timezone settings.
 - `ports`: Maps the host machine's port to the container.
 - `environment`: Sets environment variables, including `TZ` for timezone configuration.
