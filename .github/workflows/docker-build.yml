@@ -1,10 +1,10 @@
 name: Docker Build and Scan
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  push: null
+    # branches:
+    #   - main
+  pull_request: null
 
 permissions: {}
 
