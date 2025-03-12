@@ -1,4 +1,4 @@
-name: Docker Build and Scan
+name: Docker image build and scan
 
 on:
   push: null
@@ -10,7 +10,7 @@ permissions: {}
 
 jobs:
   build:
-    name: Build image
+    name: Build and scan image
     runs-on: ubuntu-latest
 
     permissions:
