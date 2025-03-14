@@ -1,0 +1,44 @@
+name: Docker image build and scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: null
+
+permissions: {}
+
+jobs:
+  build:
+    name: Build and scan image
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image and load
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: my-app:latest
+
+      - name: Scan for vulnerabilities
+        uses: crazy-max/ghaction-container-scan@v3
+        with:
+          image: my-app:latest
+          dockerfile: ./Dockerfile
+          severity_threshold: HIGH
