@@ -2,9 +2,6 @@
 
 set -e
 
-# Enter the papermc directory
-cd /server || exit 1
-
 # Set default values if not provided
 : "${MC_VERSION:='latest'}"
 : "${PAPER_BUILD:='latest'}"

@@ -21,7 +21,7 @@ RUN addgroup -S minecraft && adduser -S minecraft -G minecraft && \
     chown -R minecraft:minecraft /server && \
     chmod +x /papermc.sh
 
-# Install necessary packages
+# Install dependencies
 RUN apk add --no-cache \
     libstdc++ \
     openjdk21-jre \
@@ -30,14 +30,14 @@ RUN apk add --no-cache \
     jq \
     tzdata
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /server
 
 # Switch to the non-root user
 USER minecraft
 
-# Start the Minecraft server using the bash script
-CMD ["bash", "/papermc.sh"]
+# Make the script the default startup command
+ENTRYPOINT ["/papermc.sh"]
 
 # Expose the TCP port for Minecraft server
 EXPOSE 25565/tcp
